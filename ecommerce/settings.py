@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     #Our Apps
     'products',
+    'search'
 ]
 
 MIDDLEWARE = [

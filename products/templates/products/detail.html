@@ -1,2 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        {{ object.title }} <br />
+  <h3>      {{ object.timestamp | timesince}} ago</h3>
+{{ object.description | linebreaks}} <br />
+
+
+{% if  object.image %}
+  <img src="{{ object.image.url }}" class="img-fluid" />
+{% endif %}
+
+{% endblock content %}
+
+
+
 {{ object.title }} <br />
-{{ object.description }}
+{{ object.description | linebreaks}} <br />
+
+
+{% if  object.image %}
+  <img src="{{ object.image.url }}" class="img-fluid" />
+{% endif %}
+
+

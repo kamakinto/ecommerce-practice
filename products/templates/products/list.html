@@ -1,8 +1,16 @@
-
-{% for obj in object_list %}
-  {{ obj.title }}
-  <br />
-{% endfor %}
+{% extends 'base.html' %}
 
 
-----------------------<br />
+
+{% block content %}
+
+<div class="row">
+        <div class="col">
+      {% for obj in object_list %}
+                {% include "products/snippets/card.html"  with instance=obj%}
+                <br />
+        {% endfor %}
+        </div>
+        </div>
+{% endblock content %}
+
