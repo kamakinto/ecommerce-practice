@@ -19,6 +19,7 @@ from django.conf.urls.static import static
 from django.conf.urls import url, include
 from django.urls import path
 from .views import home_page, about_page, contact_page, login_page, register_page
+from carts.views import cart_home
 
 
 urlpatterns = [
@@ -28,6 +29,7 @@ urlpatterns = [
     path('about/', about_page, name='about'),
     path('contact/', contact_page, name='contact'),
     path('products/', include(("products.urls",  'products'), namespace='products')),
+    path('cart/', include(("carts.urls",  'cart'), namespace='cart')),
     path('search/', include(('search.urls', 'search'), namespace='search')),
     path('admin/', admin.site.urls),
 ]

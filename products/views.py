@@ -2,6 +2,7 @@ from django.views.generic  import ListView, DetailView
 from django.shortcuts import render, get_object_or_404
 from django.http import Http404
 from .models import Product
+from carts.models import Cart
 
 class ProductFeaturedListView(ListView):
   #queryset = Product.objects.all() #get all products from the database
@@ -25,31 +26,38 @@ class ProductListView(ListView):
 
 
 class ProductDetailSlugView(DetailView):
-	queryset = Product.objects.all() #get all products from the database
-	template_name = "products/detail.html"
-	def get_object(self, *args, **kwargs):
-		request = self.request
-		slug = self.kwargs.get('slug')
-		try:
-			instance = Product.objects.get(slug=slug)
-		except Product.DoesNotExist:
-			raise Http404("Not found..")
-		except Product.MultipleObjectsReturned:
-			qs = Product.objects.filter(slug=slug)
-			instance = qs.first()
-		except:
-			raise Http404("hmmmm")
-		return instance
+        queryset = Product.objects.all() #get all products from the database
+        template_name = "products/detail.html"
+
+        def get_context_data(self, *args, **kwargs):
+                context = super(ProductDetailSlugView, self).get_context_data(*args, **kwargs) #get context for view
+                cart_obj, new_obj = Cart.objects.new_or_get(self.request) #get current user's cart
+                context['cart'] = cart_obj #add the current user's cart to the current view
+                return context
+
+        def get_object(self, *args, **kwargs):
+                request = self.request
+                slug = self.kwargs.get('slug')
+                try:
+                        instance = Product.objects.get(slug=slug)
+                except Product.DoesNotExist:
+                        raise Http404("Not found..")
+                except Product.MultipleObjectsReturned:
+                        qs = Product.objects.filter(slug=slug)
+                        instance = qs.first()
+                except:
+                        raise Http404("hmmmm")
+                return instance
 
 
 class ProductDetailView(DetailView):
-  queryset = Product.objects.all() #get all products from the database
-  template_name = "products/detail.html"
+        queryset = Product.objects.all() #get all products from the database
+        template_name = "products/detail.html"
 
-  def get_context_data(self, *args, **kwargs):
-	  context = super(ProductDetailView, self).get_context_data(*args, **kwargs)
-	  print(context)
-	  return context
+        def get_context_data(self, *args, **kwargs):
+                context = super(ProductDetailView, self).get_context_data(*args, **kwargs)
+                print(context)
+                return context
 
   # def get_object(self, *args, **kwargs):
   #   request = self.request

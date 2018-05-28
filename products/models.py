@@ -25,7 +25,10 @@ class ProductQuerySet(models.query.QuerySet):
                 return self.filter(featured=True)
 
         def search(self, query):
-                lookups = Q(title__icontains=query) | Q(description__icontains=query)
+                lookups = (
+                        Q(title__icontains=query)
+                |       Q(description__icontains=query)
+                |       Q(tag__title__icontains=query))
                 return self.filter(lookups).distinct()
 
 #Overriding the model manager aka creating our own methods for database lookups
@@ -61,6 +64,10 @@ class Product(models.Model):
 
   def __str__(self):
     return self.title #decides the name within the admin database menu
+
+@property
+def name(self):
+        return self.title
 
 def product_pre_save_receiver(sender, instance, *args, **kwargs):
             if not instance.slug:
