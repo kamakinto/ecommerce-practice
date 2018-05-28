@@ -36,8 +36,15 @@
         <td colspan="2"></td>
         <td><b>Total: </b> {{cart.total }}
   </tr>
+<tr>
+        <td colspan="2"></td>
+        <td><a  class="btn btn-info" href="{% url 'cart:checkout' %}">Checkout</a></td>
+</tr>
   </tbody>
 </table>
+
+
+
 {% else %}
 <div class="lead">Cart is empty...</div>
         {% endif %}
