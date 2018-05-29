@@ -38,37 +38,4 @@ def contact_page(request):
   #     print(request.POST.get('content'))
   return render(request, "contact/view.html", context)
 
-def  login_page(request):
-  form = LoginForm(request.POST or None)
-  context = {
-    "form": form
-  }
-  print(request.user.is_authenticated)
-  if form.is_valid():
-   print(form.cleaned_data)
-   username = form.cleaned_data.get("username")
-   password = form.cleaned_data.get("password")
-   user = authenticate(request, username=username, password=password)
-   print(request.user.is_authenticated)
-   if user is not None:
-     print(request.user.is_authenticated)
-     login(request, user)
-     context['form'] = LoginForm() #adds an empty login form after user is logged in.
-     return redirect("/")
-  else:
-    print("Error") #return an invalid login error message
-  return render(request, "auth/login.html", context)
-User = get_user_model()
-def  register_page(request):
-  register_form = RegisterForm(request.POST or None)
-  context = {
-    "register_form": register_form
-  }
-  if register_form.is_valid():
-    print(register_form.cleaned_data)
-    username = register_form.cleaned_data.get("username")
-    email = register_form.cleaned_data.get("email")
-    password = register_form.cleaned_data.get("password")
-    new_user = User.objects.create_user(username, email, password)
-    print(new_user)
-  return render(request, "auth/register.html", context)
+
